@@ -1,44 +1,34 @@
 #!/bin/bash
 
 day=$1
-type=$2
 
-export day type
+export day
 
 if [[ ! -f "./src/day${day}.rs" ]]; then
     envsubst <<EOF > ./src/day${day}.rs
 #[aoc_generator(day$day)]
-pub fn input_generator(input: &str) -> $type {
-    // input.lines().map(|l| l.parse::<u64>().unwrap()).collect()
+pub fn input_generator(input: &str) -> Vec<usize> {
+    input.lines().map(|l| l.parse::<usize>().unwrap()).collect()
 }
 #[aoc(day$day, part1)]
-pub fn part1(input: &$type) -> usize {
+pub fn part1(input: &[usize]) -> usize {
     0
 }
 #[aoc(day$day, part2)]
-pub fn part2(input: &$type) -> usize {
+pub fn part2(input: &[usize]) -> usize {
     0
 }
 #[cfg(test)]
 mod tests {
     use super::*;
+    const INPUT: &str = "";
     #[test]
     fn example1() {
-        assert_eq!(
-            part1(&input_generator(
-                ""
-            )),
-            0
-        )
+        assert_eq!(part1(&input_generator(INPUT)), 0)
     }
     #[test]
     fn example2() {
-        assert_eq!(
-            part2(&input_generator(
-                ""
-            )),
-            0
-        )
+        assert_eq!(part2(&input_generator(INPUT)), 0)
     }
 }
 EOF
