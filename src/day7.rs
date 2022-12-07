@@ -30,13 +30,11 @@ pub fn input_generator(input: &str) -> Output {
         }
     }
 
-    let h = hm.clone();
-    let mut keys = h.keys().collect::<Vec<_>>();
-    keys.sort_by_key(|dir| dir.matches("/").count());
-    keys.reverse();
+    let mut keys = hm.keys().cloned().collect::<Vec<_>>();
+    keys.sort_by_key(|dir| usize::MAX - dir.matches("/").count());
     keys.iter()
         .map(|k| {
-            let size: usize = hm[*k]
+            let size: usize = hm[k]
                 .1
                 .iter()
                 .map(|(n, s)| match s {
@@ -44,8 +42,8 @@ pub fn input_generator(input: &str) -> Output {
                     s => *s,
                 })
                 .sum();
-            hm.get_mut(*k).unwrap().0 = size;
-            ((*k).clone(), size)
+            hm.get_mut(k).unwrap().0 = size;
+            (k.clone(), size)
         })
         .collect()
 }
