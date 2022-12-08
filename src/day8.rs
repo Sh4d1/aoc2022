@@ -1,5 +1,3 @@
-use std::vec::IntoIter;
-
 use itertools::FoldWhile::{Continue, Done};
 use itertools::Itertools;
 
@@ -11,12 +9,17 @@ pub fn input_generator(input: &str) -> Vec<Vec<u8>> {
         .collect()
 }
 
-pub fn get_iter(i: usize, j: usize, h: usize, w: usize) -> [(IntoIter<usize>, bool); 4] {
-    [
-        ((0..i).rev().collect::<Vec<_>>().into_iter(), false),
-        (((i + 1)..h).collect::<Vec<_>>().into_iter(), false),
-        ((0..j).rev().collect::<Vec<_>>().into_iter(), true),
-        (((j + 1)..w).collect::<Vec<_>>().into_iter(), true),
+pub fn get_iter(
+    i: usize,
+    j: usize,
+    h: usize,
+    w: usize,
+) -> Vec<(Box<dyn Iterator<Item = usize>>, bool)> {
+    vec![
+        (Box::new((0..i).rev()), false),
+        (Box::new((i + 1)..h), false),
+        (Box::new((0..j).rev()), true),
+        (Box::new((j + 1)..w), true),
     ]
 }
 
