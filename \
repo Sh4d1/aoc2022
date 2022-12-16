@@ -1,0 +1,51 @@
+use lazy_static::lazy_static;
+use regex::Regex;
+
+lazy_static! {
+    static ref R: Regex =
+        Regex::new(r"Valve ([A-Z][A-Z]) has flow rate=(\d+); tunnels lead to valves ([A-Z, ]+)")
+            .unwrap();
+}
+
+pub struct Valve {
+    name: String,
+    rate: usize,
+    tunnels: Vec<String>,
+}
+
+#[aoc_generator(day16)]
+pub fn input_generator(input: &str) -> Vec<Valve> {
+    input
+        .lines()
+        .map(|l| {
+            let l = R.captures(l).unwrap();
+
+            Valve {
+                name: l[1].to_string(),
+                rate: l[2].parse().unwrap(),
+                tunnels: l[3].trim().split(", ").collect(),
+            }
+        })
+        .collect()
+}
+#[aoc(day16, part1)]
+pub fn part1(input: &[usize]) -> usize {
+    0
+}
+#[aoc(day16, part2)]
+pub fn part2(input: &[usize]) -> usize {
+    0
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    const INPUT: &str = "";
+    #[test]
+    fn example1() {
+        assert_eq!(part1(&input_generator(INPUT)), 0)
+    }
+    #[test]
+    fn example2() {
+        assert_eq!(part2(&input_generator(INPUT)), 0)
+    }
+}
