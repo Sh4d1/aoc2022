@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub enum Op {
     Shout(isize),
     Add(String, String),
@@ -77,7 +77,6 @@ pub fn part1(input: &HashMap<String, Op>) -> isize {
 
 #[aoc(day21, part2)]
 pub fn part2(input: &HashMap<String, Op>) -> isize {
-    let input = input.clone();
     if let Add(s0, s1) = input.get("root").unwrap() {
         if contains(&input, s0, "humn") {
             find(&input, s0, walk(&input, s1), "humn")
